@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class ExchangeRate {
-    //TODO change
+    //TODO get rid of jackson references
     @JsonProperty
     private BigDecimal rate;
 
@@ -20,6 +20,22 @@ public class ExchangeRate {
 
     private ExchangeRate() {
 
+    }
+
+    BigDecimal getRate() {
+        return rate;
+    }
+
+    BigDecimal getAmount() {
+        return amount;
+    }
+
+    BigDecimal getResult() {
+        return result;
+    }
+
+    BigDecimal getFee() {
+        return fee;
     }
 
     static class Builder {

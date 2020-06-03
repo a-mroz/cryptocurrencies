@@ -27,7 +27,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     private ExchangeRate calculateExchangeRate(BigDecimal amount, Cryptocurrency to, BigDecimal rate) {
         BigDecimal fee = feePolicy.calculateFee(amount); // fee from original amount, as per description
-        BigDecimal result = amount.min(fee).multiply(rate);
+        BigDecimal result = amount.subtract(fee).multiply(rate);
 
         return new ExchangeRate.Builder()
             .withAmount(amount)
