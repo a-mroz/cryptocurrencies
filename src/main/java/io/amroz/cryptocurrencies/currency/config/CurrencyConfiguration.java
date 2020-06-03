@@ -4,6 +4,8 @@ import io.amroz.cryptocurrencies.currency.domain.CurrencyRatesService;
 import io.amroz.cryptocurrencies.currency.domain.CurrencyRatesServiceImpl;
 import io.amroz.cryptocurrencies.currency.domain.ExchangeService;
 import io.amroz.cryptocurrencies.currency.domain.ExchangeServiceImpl;
+import io.amroz.cryptocurrencies.currency.domain.FeePolicy;
+import io.amroz.cryptocurrencies.currency.domain.OnePercentFeePolicy;
 import io.amroz.cryptocurrencies.currency.domain.SingleCurrencyRateFetcher;
 import io.amroz.cryptocurrencies.infrastructure.CoinApiService;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +28,12 @@ public class CurrencyConfiguration {
     }
 
     @Bean
-    ExchangeService exchangeService(CurrencyRatesService currencyRatesService) {
-        return new ExchangeServiceImpl(currencyRatesService);
+    ExchangeService exchangeService(CurrencyRatesService currencyRatesService, FeePolicy feePolicy) {
+        return new ExchangeServiceImpl(currencyRatesService, feePolicy);
+    }
+
+    @Bean
+    FeePolicy feePolicy() {
+        return new OnePercentFeePolicy();
     }
 }

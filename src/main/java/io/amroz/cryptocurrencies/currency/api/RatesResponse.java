@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 
 
 class RatesResponse {
+
     @JsonProperty
     private final String source;
+
     @JsonProperty
     private final Map<String, BigDecimal> rates;
 
@@ -20,6 +22,5 @@ class RatesResponse {
         this.rates = rates.entrySet()
             .stream()
             .collect(Collectors.toMap(e -> e.getKey().symbol(), Map.Entry::getValue));
-
     }
 }

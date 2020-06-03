@@ -13,7 +13,7 @@ public class Cryptocurrency {
     }
 
     public static Cryptocurrency forSymbol(String symbol) {
-        if(symbol == null || symbol.isBlank()) { // potentially some util library
+        if(symbol == null || symbol.isBlank()) {
             throw new AssertionError("Symbol must be non-empty");
         }
 
