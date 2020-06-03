@@ -22,6 +22,12 @@ class ExchangeRequest {
     @JsonProperty
     private BigDecimal amount;
 
+    ExchangeRequest(String from, List<String> to, BigDecimal amount) {
+        this.from = from;
+        this.to = to;
+        this.amount = amount;
+    }
+
     String from() {
         return from;
     }

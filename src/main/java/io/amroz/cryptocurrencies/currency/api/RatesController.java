@@ -39,7 +39,8 @@ class RatesController {
     }
 
     private List<Cryptocurrency> toCurrencies(Cryptocurrency from, List<String> currencyFilter) {
-        List<String> filter = (currencyFilter == null || currencyFilter.isEmpty()) ? new ArrayList<>(DEFAULT_CURRENCIES) : currencyFilter;
+        List<String> filter = (currencyFilter == null || currencyFilter.isEmpty()) ? new ArrayList<>(DEFAULT_CURRENCIES) :
+            new ArrayList<>(currencyFilter);
 
         // We don't want to convert from the same value to the same value
         filter.remove(from.symbol());
