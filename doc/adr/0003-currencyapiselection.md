@@ -1,4 +1,4 @@
-# 3. currencyApiSelection
+# 3. Currency API selection
 
 Date: 2020-06-02
 
