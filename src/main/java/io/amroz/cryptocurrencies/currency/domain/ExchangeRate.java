@@ -1,40 +1,33 @@
 package io.amroz.cryptocurrencies.currency.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class ExchangeRate {
-    //TODO get rid of jackson references
-    @JsonProperty
     private BigDecimal rate;
 
-    @JsonProperty
     private BigDecimal amount;
 
-    @JsonProperty
     private BigDecimal result;
 
-    @JsonProperty
-    private BigDecimal fee;
+    private Fee fee;
 
     private ExchangeRate() {
 
     }
 
-    BigDecimal getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
-    BigDecimal getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    BigDecimal getResult() {
+    public BigDecimal getResult() {
         return result;
     }
 
-    BigDecimal getFee() {
+    public Fee getFee() {
         return fee;
     }
 
@@ -42,7 +35,7 @@ public class ExchangeRate {
         private BigDecimal rate;
         private BigDecimal amount;
         private BigDecimal result;
-        private BigDecimal fee;
+        private Fee fee;
 
         Builder withRate(BigDecimal rate) {
             this.rate = rate;
@@ -59,7 +52,7 @@ public class ExchangeRate {
             return this;
         }
 
-        Builder withFee(BigDecimal fee) {
+        Builder withFee(Fee fee) {
             this.fee = fee;
             return this;
         }

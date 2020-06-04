@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 class ZeroFeePolicy implements FeePolicy {
 
     @Override
-    public BigDecimal calculateFee(BigDecimal amount) {
-        return BigDecimal.ZERO;
+    public Fee calculateFee(Cryptocurrency cryptocurrency, BigDecimal amount) {
+        return Fee.fee(cryptocurrency, BigDecimal.ZERO);
     }
 }

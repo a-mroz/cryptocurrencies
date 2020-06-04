@@ -41,7 +41,7 @@ class ExchangeServiceImplTest {
         ExchangeRate exchangeRate = rates.get(ETH);
         assertThat(exchangeRate).isNotNull();
         assertThat(exchangeRate.getAmount()).isEqualTo(amount);
-        assertThat(exchangeRate.getFee()).isEqualTo(BigDecimal.ZERO);
+        assertThat(exchangeRate.getFee().amount()).isEqualTo(BigDecimal.ZERO);
         assertThat(exchangeRate.getRate()).isEqualTo(rate);
         assertThat(exchangeRate.getResult()).isEqualTo(amount.multiply(rate));
     }
@@ -79,7 +79,8 @@ class ExchangeServiceImplTest {
         BigDecimal expectedFee = BigDecimal.ONE; // one percent of 100
         BigDecimal expectedResult = BigDecimal.valueOf(99); // 1 to 1 rate - fee
 
-        assertThat(exchangeRate.getFee()).isCloseTo(expectedFee, accuracy);
+        assertThat(exchangeRate.getFee().amount()).isCloseTo(expectedFee, accuracy);
+        assertThat(exchangeRate.getFee().currency()).isEqualTo(BTC);
         assertThat(exchangeRate.getResult()).isCloseTo(expectedResult, accuracy);
     }
 }

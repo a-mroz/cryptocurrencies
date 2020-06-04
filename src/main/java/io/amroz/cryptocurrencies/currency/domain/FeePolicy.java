@@ -7,5 +7,5 @@ public interface FeePolicy {
     /**
      * Calculates fee for a given amount.
      */
-    BigDecimal calculateFee(BigDecimal amount);
+    Fee calculateFee(Cryptocurrency fromCurrency, BigDecimal amount);
 }

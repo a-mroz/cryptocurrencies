@@ -10,7 +10,6 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final CurrencyRatesService ratesService;
     private final FeePolicy feePolicy;
 
-
     public ExchangeServiceImpl(CurrencyRatesService ratesService, FeePolicy feePolicy) {
         this.ratesService = ratesService;
         this.feePolicy = feePolicy;
@@ -21,13 +20,13 @@ public class ExchangeServiceImpl implements ExchangeService {
         Map<Cryptocurrency, BigDecimal> rates = ratesService.ratesFor(from, to);
 
         return rates.entrySet().stream().collect(Collectors.toMap(
-            Map.Entry::getKey, rate -> calculateExchangeRate(amount, rate.getKey(), rate.getValue())
+            Map.Entry::getKey, rate -> calculateExchangeRate(amount, from, rate.getValue())
         ));
     }
 
-    private ExchangeRate calculateExchangeRate(BigDecimal amount, Cryptocurrency to, BigDecimal rate) {
-        BigDecimal fee = feePolicy.calculateFee(amount); // fee from original amount, as per description
-        BigDecimal result = amount.subtract(fee).multiply(rate);
+    private ExchangeRate calculateExchangeRate(BigDecimal amount, Cryptocurrency fromCurrency, BigDecimal rate) {
+        Fee fee = feePolicy.calculateFee(fromCurrency, amount); // fee from original amount, as per description
+        BigDecimal result = amount.subtract(fee.amount()).multiply(rate);
 
         return new ExchangeRate.Builder()
             .withAmount(amount)
