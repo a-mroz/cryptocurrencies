@@ -10,6 +10,6 @@ class CoinApiConfig {
 
     @Bean
     CurrencyRatesService currencyRatesService(@Value("${coinapi.api-key}") String apiKey) {
-        return new CoinApiParallelCurrencyFetcher(new CoinApiService(apiKey));
+        return new CoinApiCurrencyFetcher(new CoinApiService(apiKey));
     }
 }

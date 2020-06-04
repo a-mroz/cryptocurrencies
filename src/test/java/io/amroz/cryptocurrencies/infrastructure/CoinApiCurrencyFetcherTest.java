@@ -19,16 +19,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CoinApiParallelCurrencyFetcherTest {
+class CoinApiCurrencyFetcherTest {
 
     @Mock
     private CoinApiService coinApi;
 
-    private CoinApiParallelCurrencyFetcher fetcher;
+    private CoinApiCurrencyFetcher fetcher;
 
     @BeforeEach
     void setUp() {
-        fetcher = new CoinApiParallelCurrencyFetcher(coinApi);
+        fetcher = new CoinApiCurrencyFetcher(coinApi);
     }
 
     // Calling for unknown currencies causes exception, as it returns status 550

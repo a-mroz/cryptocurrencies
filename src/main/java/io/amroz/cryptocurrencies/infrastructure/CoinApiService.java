@@ -9,6 +9,7 @@ class CoinApiService {
 
     private static final String API_BASE_URL = "https://rest-sandbox.coinapi.io/v1/";
     private static final String EXCHANGE_URL_PATTERN = "exchangerate/%s/%s";
+    private static final String FETCH_ALL_URL = "exchangerate/%s";
 
     private final WebClient webClient;
 
@@ -19,14 +20,22 @@ class CoinApiService {
             .build();
     }
 
-    Mono<CoinApiResponse> fetchSingle(Cryptocurrency from, Cryptocurrency to) {
+    Mono<CoinApiSingleRateResponse> fetchSingle(Cryptocurrency from, Cryptocurrency to) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(String.format(EXCHANGE_URL_PATTERN, from.symbol(), to.symbol()))
                     .build())
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(CoinApiResponse.class);
+            .bodyToMono(CoinApiSingleRateResponse.class);
+    }
+
+    Mono<CoinApiAllCurrenciesResponse> fetchAll(Cryptocurrency forCurrency) {
+        return webClient.get()
+            .uri(String.format(FETCH_ALL_URL, forCurrency.symbol()))
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(CoinApiAllCurrenciesResponse.class);
     }
 
 }

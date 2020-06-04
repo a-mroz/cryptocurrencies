@@ -7,4 +7,6 @@ import java.util.Map;
 public interface CurrencyRatesService {
 
     Map<Cryptocurrency, BigDecimal> ratesFor(Cryptocurrency currency, List<Cryptocurrency> toCurrencies);
+
+    Map<Cryptocurrency, BigDecimal> allRatesFor(Cryptocurrency forCurrency);
 }

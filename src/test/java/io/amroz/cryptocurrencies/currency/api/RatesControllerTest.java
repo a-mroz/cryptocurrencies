@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,24 +28,27 @@ class RatesControllerTest {
     }
 
     @Test
-    void shouldRemoveCurrentCurrencyFromFilters() {
-        // when
-        ratesController.getRates("BTC", Arrays.asList("BTC", "ETH"));
-
-        // then
-        verify(ratesService).ratesFor(forSymbol("BTC"), List.of(forSymbol("ETH")));
-    }
-
-    @Test
-    void shouldUseDefaultForEmptyFilters() {
+    void shouldFetchAllForEmptyFilters() {
         // given
-        List<Cryptocurrency> defaultFilter = List.of(forSymbol("USD"), forSymbol("BTC"), forSymbol("ETH"));
-        String symbolFrom = "ABC";
+        String symbolFrom = "BTC";
 
         // when
         ratesController.getRates(symbolFrom, Collections.emptyList());
 
         // then
-        verify(ratesService).ratesFor(forSymbol(symbolFrom), defaultFilter);
+        verify(ratesService).allRatesFor(forSymbol(symbolFrom));
+    }
+
+    @Test
+    void shouldLimitForNonEmptyFilters() {
+        // given
+        String symbolFrom = "BTC";
+        String filter = "ETH";
+
+        // when
+        ratesController.getRates(symbolFrom, List.of(filter));
+
+        // then
+        verify(ratesService).ratesFor(forSymbol(symbolFrom), List.of(Cryptocurrency.forSymbol(filter)));
     }
 }

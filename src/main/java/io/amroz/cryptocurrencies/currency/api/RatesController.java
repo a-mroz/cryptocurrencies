@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 
 @RestController
 class RatesController {
-
-    private static final List<String> DEFAULT_CURRENCIES = List.of("USD", "BTC", "ETH");
-
     private final CurrencyRatesService ratesService;
 
     RatesController(CurrencyRatesService ratesService) {
@@ -31,22 +28,21 @@ class RatesController {
     ResponseEntity<RatesResponse> getRates(@PathVariable("currency") @NotEmpty String currencySymbol,
                                            @RequestParam(value = "filter", required = false) List<String> currencyFilter) {
         Cryptocurrency currency = Cryptocurrency.forSymbol(currencySymbol);
-        Map<Cryptocurrency, BigDecimal> rates = ratesService.ratesFor(currency, toCurrencies(currency, currencyFilter));
+
+        Map<Cryptocurrency, BigDecimal> rates = getRates(currency, currencyFilter);
 
         RatesResponse body = new RatesResponse(currency.symbol(), rates);
 
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
-    private List<Cryptocurrency> toCurrencies(Cryptocurrency from, List<String> currencyFilter) {
-        List<String> filter = (currencyFilter == null || currencyFilter.isEmpty()) ? new ArrayList<>(DEFAULT_CURRENCIES) :
-            new ArrayList<>(currencyFilter);
+    private Map<Cryptocurrency, BigDecimal> getRates(Cryptocurrency currency, List<String> currencyFilter) {
+        if(currencyFilter == null || currencyFilter.isEmpty()) {
+            return ratesService.allRatesFor(currency);
+        }
 
-        // We don't want to convert from the same value to the same value
-        filter.remove(from.symbol());
-
-        return filter.stream().map(Cryptocurrency::forSymbol)
-            .collect(Collectors.toList());
+        return ratesService.ratesFor(currency, currencyFilter.stream().map(Cryptocurrency::forSymbol)
+                .collect(Collectors.toList()));
     }
 
 }
